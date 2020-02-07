@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}
+- Home
+{% endblock %}
+{% block content %}
+
+<h1>Welcome to eLearning{% if user.is_authenticated %}, {{user.username}}{% endif %}</h1>
+{% if not user.is_authenticated %}<p>Please login or register to get full access to eLearning.</p>{% endif %}
+{% endblock  %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <table>
+        <thead>
+            <th>Kod</th>
+            <th>Naziv</th>
+            <th>Program</th>
+            <th>Bodovi</th>
+            <th>Semestar (redovni)</th>
+            <th>Semestar (izvanredni)</th>
+            <th>Izborni</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{predmet.kod}}</td>
+                <td>{{predmet.ime}}</td>
+                <td>{{predmet.program}}</td>
+                <td>{{predmet.bodovi}}</td>
+                <td>{{predmet.sem_redovni}}</td>
+                <td>{{predmet.sem_izvanredni}}</td>
+                <td>{{predmet.izborni}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Upisani studenti</h2>
+    <table>
+        <thead>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Status</th>
+        </thead>
+        <tbody>
+            {% for student in studenti %}
+            <tr>
+                <td>{{student.username}}</td>
+                <td>{{student.email}}</td>
+                <td>{{student.status}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <a href="/dodaj-predmet" class="btn btn-primary">Dodaj predmet</a>
+    {% if predmeti %}
+        <h1>Predmeti</h1>
+        {% for predmet in predmeti %}
+            <form method="POST" class="form">
+                {{predmet}}
+                <a href="/predmet/{{predmet.id}}" class="btn btn-primary">Detalji</a>
+                <a href="/uredi-predmet/{{predmet.id}}" class="btn btn-primary">Uredi</a>
+                    <button type="submit" name="delete" value="{{predmet.id}}" class="btn btn-warning">Izbriši</button>
+                    {% csrf_token %}
+            </form>
+        {% endfor %}
+    {% else %}
+        <p>Ne postoji niti jedan predmet</p>
+    {% endif %}
+{% endblock %}

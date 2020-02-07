@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if studenti %}
+        <h1>Studenti</h1>
+        {% for student in studenti %}
+            <p>
+                {{student}}
+                <a href="/upisni-list/{{student.id}}" class="btn btn-primary">Upisni list</a>
+            </p>
+        {% endfor %}
+    {% else %}
+        <p>Ne postoji niti jedan predmet</p>
+    {% endif %}
+{% endblock %}

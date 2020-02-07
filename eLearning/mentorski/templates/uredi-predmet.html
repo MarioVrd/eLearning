@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Uređivanje predmeta</h2>
+<form method="POST" class="form">
+    {{form}}
+    {% csrf_token %}
+    <input type="submit" class="btn btn-primary" value="Uredi">
+</form>
+{% endblock  %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}
+- Upisni list
+{% endblock  %}
+{% block content %}
+{% if student.status == 'none' %}
+    <p>Status studenta {{student.email}} je none. Studenti sa takvim statusom ne mogu vidjeti predmete.</p>
+{% else %}
+    <div id="predmeti" class="item1">
+    <h1>Predmeti</h1>
+    {% for predmet in predmeti %}
+        <form method="POST">
+            <button type="submit" name="enroll" value="{{predmet.id}}" class="btn btn-primary btn-icon">
+                <i class="material-icons">add</i>
+            </button>
+            {{predmet.kod}} {{predmet.ime}} 
+            {% csrf_token %}
+        </form>
+    {% endfor %}
+    </div> <!-- #/predmeti -->
+
+    <div id="upisani" class="item2">
+        {{student.email}}
+        <h1>Upisani</h1>
+        {% if upisani %}
+        {% for semestar in semestri %}
+            <div id="semestar-{{semestar}}" class="semestar-container">
+                <h3>Semestar {{semestar}}</h3>
+                {% for upisan in upisani %}
+                    {% if student.status == 'redovni' and upisan.predmet.sem_redovni == semestar %}
+                        <form method="POST">
+                            {{upisan.predmet.kod}} {{upisan.predmet.ime}}
+                            {% if upisan.status == 'enrolled' %}
+                                <button type="submit" name="disenroll" value="{{upisan.predmet.id}}" class="btn btn-primary btn-icon">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                                <button type="submit" name="passed" value="{{upisan.predmet.id}}" class="btn btn-primary btn-icon">
+                                    <i class="material-icons">done</i>
+                                </button>
+                            {% elif upisan.status == 'passed' %}
+                                <span>PASSED</span>
+                            {% else %}
+                                <span>STATUS NOT SELECTED</span>
+                            {% endif %}
+                        {% csrf_token %}
+                        </form>
+                    {% elif student.status == 'izvanredni' and upisan.predmet.sem_izvanredni == semestar %}
+                        <form method="POST">
+                            {{upisan.predmet.kod}} {{upisan.predmet.ime}}
+                            {% if upisan.status == 'enrolled' %}
+                                <button type="submit" name="disenroll" value="{{upisan.predmet.id}}" class="btn btn-primary">Ispisi</button>
+                                <button type="submit" name="passed" value="{{upisan.predmet.id}}" class="btn btn-primary">Polozeno</button>
+                            {% elif upisan.status == 'passed' %}
+                                <span>PASSED</span>
+                            {% else %}
+                                <span>STATUS NOT SELECTED</span>
+                            {% endif %}
+                        {% csrf_token %}
+                        </form>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {% else %}
+            <p>Nema upisanih predmeta.</p>
+        {% endif %}
+    </div> <!-- #/upisani -->
+
+{% endif %}
+{% endblock  %}
