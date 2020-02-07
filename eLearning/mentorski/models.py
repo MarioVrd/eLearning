@@ -54,3 +54,4 @@ class Upisi(models.Model):
 
     class Meta:
         db_table = 'upisi'
+        unique_together = ('student', 'predmet')

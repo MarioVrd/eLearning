@@ -8,20 +8,23 @@
 {% else %}
     <div id="predmeti" class="item1">
     <h1>Predmeti</h1>
-    {% for predmet in predmeti %}
-        <form method="POST">
-            <button type="submit" name="enroll" value="{{predmet.id}}" class="btn btn-primary btn-icon">
-                <i class="material-icons">add</i>
-            </button>
-            {{predmet.kod}} {{predmet.ime}} 
-            {% csrf_token %}
-        </form>
-    {% endfor %}
+    {% if predmeti %}
+        {% for predmet in predmeti %}
+            <form method="POST">
+                <button type="submit" name="enroll" value="{{predmet.id}}" class="btn btn-primary btn-icon">
+                    <i class="material-icons">add</i>
+                </button>
+                {{predmet.kod}} {{predmet.ime}} 
+                {% csrf_token %}
+            </form>
+        {% endfor %}
+    {% else %}
+        <p>Nema predmeta za prikaz.</p>
+    {% endif %}
     </div> <!-- #/predmeti -->
 
     <div id="upisani" class="item2">
-        {{student.email}}
-        <h1>Upisani</h1>
+        <h1>Upisani ({{student.email}})</h1>
         {% if upisani %}
         {% for semestar in semestri %}
             <div id="semestar-{{semestar}}" class="semestar-container">
@@ -40,6 +43,9 @@
                             {% elif upisan.status == 'passed' %}
                                 <span>PASSED</span>
                             {% else %}
+                                <button type="submit" name="disenroll" value="{{upisan.predmet.id}}" class="btn btn-primary btn-icon">
+                                    <i class="material-icons">clear</i>
+                                </button>
                                 <span>STATUS NOT SELECTED</span>
                             {% endif %}
                         {% csrf_token %}
@@ -48,11 +54,18 @@
                         <form method="POST">
                             {{upisan.predmet.kod}} {{upisan.predmet.ime}}
                             {% if upisan.status == 'enrolled' %}
-                                <button type="submit" name="disenroll" value="{{upisan.predmet.id}}" class="btn btn-primary">Ispisi</button>
-                                <button type="submit" name="passed" value="{{upisan.predmet.id}}" class="btn btn-primary">Polozeno</button>
+                                <button type="submit" name="disenroll" value="{{upisan.predmet.id}}" class="btn btn-primary btn-icon">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                                <button type="submit" name="passed" value="{{upisan.predmet.id}}" class="btn btn-primary btn-icon">
+                                    <i class="material-icons">done</i>
+                                </button>
                             {% elif upisan.status == 'passed' %}
                                 <span>PASSED</span>
                             {% else %}
+                                <button type="submit" name="disenroll" value="{{upisan.predmet.id}}" class="btn btn-primary btn-icon">
+                                    <i class="material-icons">clear</i>
+                                </button>
                                 <span>STATUS NOT SELECTED</span>
                             {% endif %}
                         {% csrf_token %}

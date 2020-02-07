@@ -23,8 +23,9 @@
             </tr>
         </tbody>
     </table>
-
+    
     <h2>Upisani studenti</h2>
+    {% if studenti %}
     <table>
         <thead>
             <th>Username</th>
@@ -41,4 +42,7 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}    
+    <p>Nema upisanih studenata.
+    {% endif %}
 {% endblock %}

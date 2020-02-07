@@ -17,12 +17,11 @@ def register(request):
         korisniciForm = KorisniciForm(request.POST)
         if korisniciForm.is_valid():
             korisniciForm.save()
-            Korisnici.objects.filter(email = korisniciForm.cleaned_data.get('email')).update(role = "student")
             return redirect('login')
         else:
             return render(request, 'register.html', {'form': korisniciForm})
     else:
-        return HttpResonseNotAllowed()
+        return redirect('register')
 
 @student_required
 def upisni_list(request):
@@ -115,13 +114,14 @@ def dodaj_predmet(request):
             predmetForm.save()
             return redirect('predmeti')
         else:
-            return redirect('dodaj-predmet') # TODO ispisi gresku ako ne uspije (try - except)
+            return render(request, 'dodaj-predmet.html', {'form': predmetForm})
 
 @mentor_required
 def predmet_detalji(request, predmet_id):
     predmet = Predmeti.objects.get(id=predmet_id)
     studenti = Korisnici.objects.filter(id__in=predmet.upisi_set.all().values('student_id'))
-    return render(request, 'predmet-detalji.html', {'predmet': predmet, 'studenti': studenti})
+    br_st = Korisnici.objects.filter(id__in=predmet.upisi_set.all().values('student_id')).count()
+    return render(request, 'predmet-detalji.html', {'br_st': br_st, 'predmet': predmet, 'studenti': studenti})
 
 def uredi_predmet(request, predmet_id):
     predmet = Predmeti.objects.get(id=predmet_id)
